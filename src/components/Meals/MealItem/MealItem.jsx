@@ -1,7 +1,14 @@
+import { useCartContext } from '../../../store/cart-context';
 import classes from './MealItem.module.css';
 import MealItemForm from './MealItemForm';
 
 const MealItem = ({ id, name, description, price }) => {
+  const context = useCartContext();
+
+  const addToCartHandler = (amount) => {
+    context.addItem({ id, name, price, amount });
+  };
+
   return (
     <li className={classes.meal}>
       <div>
@@ -10,7 +17,7 @@ const MealItem = ({ id, name, description, price }) => {
         <div className={classes.price}>${price.toFixed(2)}</div>
       </div>
       <div>
-        <MealItemForm id={id} />
+        <MealItemForm id={id} onAddToCart={addToCartHandler} />
       </div>
     </li>
   );

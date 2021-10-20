@@ -1,13 +1,27 @@
+import { useRef } from 'react';
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
 
-const MealItemForm = (props) => {
+const MealItemForm = ({ id, onAddToCart }) => {
+  const inputRef = useRef();
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const amount = +inputRef.current.value;
+    if (amount < 1 || amount > 5) {
+      return;
+    }
+
+    onAddToCart(amount);
+  };
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <Input
+        ref={inputRef}
         label="Amount"
         input={{
-          id: 'amount_' + props.id,
+          id: 'amount_' + id,
           type: 'number',
           min: '1',
           max: '5',
