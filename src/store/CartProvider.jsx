@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { ADD_ITEM, REMOVE_ITEM } from './ActionTypes';
+import { ADD_ITEM, REMOVE_ITEM, EMPTY_CART } from './ActionTypes';
 import CartContext from './cart-context';
 
 const defaultCartState = {
@@ -51,6 +51,10 @@ const cartReducer = (state, { type, payload }) => {
     };
   }
 
+  if (type === EMPTY_CART) {
+    return defaultCartState;
+  }
+
   return defaultCartState;
 };
 
@@ -73,11 +77,18 @@ const CartProvider = ({ children }) => {
     });
   };
 
+  const empty = () => {
+    dispatchCartAction({
+      type: EMPTY_CART,
+    });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem,
     removeItem,
+    empty,
   };
 
   return (

@@ -18,6 +18,10 @@ const Cart = ({ onClose }) => {
     context.removeItem(id);
   };
 
+  const emptyCartItems = () => {
+    context.empty();
+  };
+
   const cartitems = (
     <ul className={classes['cart-items']}>
       {context.items.map((item) => (
@@ -45,14 +49,23 @@ const Cart = ({ onClose }) => {
         <span>${totalAmount}</span>
       </div>
       <div className={classes.actions}>
-        <button onClick={onClose} className={classes['button--alt']}>
-          Close
-        </button>
-        {hasItems && (
-          <button onClick={handleOrder} className={classes.button}>
-            Order
+        <div>
+          {hasItems && (
+            <button onClick={emptyCartItems} className={classes['button--alt']}>
+              Empty Cart
+            </button>
+          )}
+        </div>
+        <div>
+          <button onClick={onClose} className={classes['button--alt']}>
+            Close
           </button>
-        )}
+          {hasItems && (
+            <button onClick={handleOrder} className={classes.button}>
+              Order
+            </button>
+          )}
+        </div>
       </div>
     </Modal>
   );
